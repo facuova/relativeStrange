@@ -4,3 +4,4 @@ __pycache__/
 
 # Directorio del entorno virtual
 env/
+pyvenv.cfg
