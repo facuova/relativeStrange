@@ -4,6 +4,7 @@ Proyecto para calcular fuerza relativa entre acciones y dólar en Argentina
 
 from data_cleaning.transform_xlsx import transform_xlsx
 from data_cleaning.clean_df_list import clean_df_list
+from data_cleaning.clean_float_list import convert_float_list
 
 #Importamos los archivos  y lo agregamos a una lista
 
@@ -27,7 +28,7 @@ DF_USDB = DF_LIST[0]
 DF_USDB.rename(columns={
     'Fecha': 'fecha', 
     'Venta': 'cierre'
-    }, 
+    },
     inplace=True
     )
 #Elimino la columna que no voy a utilizar
@@ -38,3 +39,5 @@ DF_LIST.pop(0)
 
 #Aplico la funcion de filtrado y renombre de columnas
 clean_df_list(DF_LIST)
+convert_float_list(DF_LIST)
+
