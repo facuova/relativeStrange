@@ -30,13 +30,11 @@ DF_USDB.rename(columns={
     }, 
     inplace=True
     )
-
+#Elimino la columna que no voy a utilizar
 DF_USDB.drop("Compra", axis=1, inplace=True)
 
-
+#Como tengo DF_USDB por separado. Lo suelto de la lista de df
 DF_LIST.pop(0)
 
+#Aplico la funcion de filtrado y renombre de columnas
 clean_df_list(DF_LIST)
-
-print(DF_USDB)
-print(DF_LIST)

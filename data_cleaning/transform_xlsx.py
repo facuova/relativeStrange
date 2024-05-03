@@ -21,5 +21,5 @@ def transform_xlsx(lista_xlsx):
         df = pd.DataFrame(hoja.values, columns=titulos)
         df = df.drop(0)
         df_list.append(df)
-            
+
     return df_list
