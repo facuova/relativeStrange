@@ -7,6 +7,8 @@ def clean_df_list(lista_df):
     Renombramos las columnas de la lista de dataframes y eliminamos la que no precisamos 
     Argumentos: 
         lista_df (list) : Lista con dataframes
+    Returns:
+        lista con dataframes
     """
     for df in lista_df:
         df.rename(
