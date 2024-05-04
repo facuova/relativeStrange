@@ -34,8 +34,6 @@ def clean_df(df):
     Return:
         Dataframe
     """
-
-
     df.rename(columns={
         'Fecha':'fecha',
         'Venta':'cierre',

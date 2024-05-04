@@ -1,12 +1,12 @@
 """
 Proyecto para calcular fuerza relativa entre acciones y dólar en Argentina
 """
-
 from data_cleaning.transform_xlsx import transform_xlsx
 from data_cleaning.clean_df_list import clean_df_list
 from data_cleaning.clean_df_list import clean_df
 from data_cleaning.clean_float_list import convert_float_list
 from data_cleaning.clean_date_list import convert_date_list
+from data_cleaning.merge_dataframes import merge_dataframes
 
 #Importamos los archivos  y lo agregamos a una lista
 USD_BLUE_FILE_PATH = './data/quotes/usd_blue.xlsx'
@@ -27,3 +27,9 @@ clean_df(df_list[0])
 clean_df_list(df_list[1:])
 convert_float_list(df_list)
 convert_date_list(df_list)
+
+merged_df = merge_dataframes(df_list,on_column='fecha', suffixes=None, how='left')
+
+merged_df = merged_df.dropna().reset_index(drop=True)
+
+print(merged_df)
