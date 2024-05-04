@@ -1,5 +1,5 @@
 """
-    Esta función Une una lista de DataFrames en base a una columna común.
+    Esta función une una lista de DataFrames en base a una columna común.
 """
 
 def merge_dataframes(list_df, on_column='fecha', suffixes=None, how='left'):

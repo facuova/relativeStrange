@@ -8,7 +8,7 @@ from data_cleaning.clean_float_list import convert_float_list
 from data_cleaning.clean_date_list import convert_date_list
 from data_cleaning.merge_dataframes import merge_dataframes
 
-#Importamos los archivos  y lo agregamos a una lista
+#Imporo los archivos y los agrego a una lista
 USD_BLUE_FILE_PATH = './data/quotes/usd_blue.xlsx'
 ALUA_FILE_PATH = './data/quotes/alua.xlsx'
 BMA_FILE_PATH = './data/quotes/bma.xlsx'
@@ -16,20 +16,30 @@ BBAR_FILE_PATH = './data/quotes/bbar.xlsx'
 
 XLSX_LIST = [USD_BLUE_FILE_PATH, ALUA_FILE_PATH, BMA_FILE_PATH, BBAR_FILE_PATH]
 
-#Hacemos una sublista para mantener el original
+#Creo una sublista para mantener el original
 XLSX_SUBLIST = XLSX_LIST
 
-#Aplicamos una función para transformar la lista con arcvhivos xlsx en una lista con dataframes
+#Ejecuto la función para transformar la lista con archivos XLSX en una lista con DF
 df_list = transform_xlsx(XLSX_SUBLIST)
 
-#Aplico la funciones de data_cleaning
+#Ejecuto las funciones de data_cleaning
 clean_df(df_list[0])
 clean_df_list(df_list[1:])
 convert_float_list(df_list)
 convert_date_list(df_list)
 
+#Ejecuto la función para unir todo en un mismo dataframe
 merged_df = merge_dataframes(df_list,on_column='fecha', suffixes=None, how='left')
 
+#Elimino los datos Nan y corrigo los indices
 merged_df = merged_df.dropna().reset_index(drop=True)
 
-print(merged_df)
+#Creo subset del merge y renombro las columnas que se modificaron despúes del merge
+df_qoutes = merged_df.rename(columns={
+    'cierre_1':'USDB',
+    'cierre_2':'ALUA',
+    'cierre_3':'BMA',
+    'cierre_4':'BBAR',
+    })
+
+print(df_qoutes)
