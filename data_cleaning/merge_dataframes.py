@@ -1,7 +1,8 @@
 """
-    Esta función une una lista de DataFrames en base a una columna común.
+    Esta módulo incluirá 2 funciones. La primera la que servira para contar con todas
+    las cotizaciones juntas para hacer el analisis con el dolar como base.
+    Y la otra función que unirá cada dataframe con la cotizacion del USD
 """
-
 def merge_dataframes(list_df, on_column='fecha', suffixes=None, how='left'):
     """
     Une una lista de DataFrames en base a una columna común.

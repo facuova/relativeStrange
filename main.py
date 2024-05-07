@@ -6,8 +6,10 @@ from data_cleaning.clean_df_list import clean_df_list
 from data_cleaning.clean_df_list import clean_df
 from data_cleaning.clean_float_list import convert_float_list
 from data_cleaning.clean_date_list import convert_date_list
-#from data_cleaning.merge_dataframes import merge_dataframes
+from data_cleaning.merge_dataframes import merge_dataframes
 from data_analysis.quotes_return import quotes_return
+from data_analysis.base_hundred import base_hundred
+
 #Imporo los archivos y los agrego a una lista
 USD_BLUE_FILE_PATH = './data/quotes/usd_blue.xlsx'
 ALUA_FILE_PATH = './data/quotes/alua.xlsx'
@@ -27,14 +29,16 @@ clean_df(df_list[0])
 clean_df_list(df_list[1:])
 convert_float_list(df_list)
 convert_date_list(df_list)
-print(df_list[0])
+
+#Ejecuto las funciones de data_analysis
 quotes_return(df_list)
-print(df_list[1])
+base_hundred(df_list)
+
 #Ejecuto la función para unir todo en un mismo dataframe
-#merged_df = merge_dataframes(df_list,on_column='fecha', suffixes=None, how='left')
+merged_df = merge_dataframes(df_list,on_column='fecha', suffixes=None, how='left')
 
 #Elimino los datos Nan y corrigo los indices
-#merged_df = merged_df.dropna().reset_index(drop=True)
+merged_df = merged_df.dropna().reset_index(drop=True)
 
 #Creo subset del merge y renombro las columnas que se modificaron despúes del merge
 #df_qoutes = merged_df.rename(columns={
@@ -44,3 +48,16 @@ print(df_list[1])
 #    'cierre_4':'bbar',
 #    })
 
+relative_strange = merged_df[[
+    'fecha',
+    'Var base 100_1',
+    'Var base 100_2',
+    'Var base 100_3',
+    'Var base 100_4']]
+
+relative_strange['ALUA'] = relative_strange['Var base 100_2']/relative_strange['Var base 100_1'] * 100
+relative_strange['BMA'] = relative_strange['Var base 100_3']/relative_strange['Var base 100_1'] * 100
+relative_strange['BBAR'] = relative_strange['Var base 100_4']/relative_strange['Var base 100_1'] * 100
+
+print(merged_df.info())
+print(relative_strange.info())
