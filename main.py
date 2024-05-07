@@ -6,8 +6,8 @@ from data_cleaning.clean_df_list import clean_df_list
 from data_cleaning.clean_df_list import clean_df
 from data_cleaning.clean_float_list import convert_float_list
 from data_cleaning.clean_date_list import convert_date_list
-from data_cleaning.merge_dataframes import merge_dataframes
-
+#from data_cleaning.merge_dataframes import merge_dataframes
+from data_analysis.quotes_return import quotes_return
 #Imporo los archivos y los agrego a una lista
 USD_BLUE_FILE_PATH = './data/quotes/usd_blue.xlsx'
 ALUA_FILE_PATH = './data/quotes/alua.xlsx'
@@ -27,19 +27,20 @@ clean_df(df_list[0])
 clean_df_list(df_list[1:])
 convert_float_list(df_list)
 convert_date_list(df_list)
-
+print(df_list[0])
+quotes_return(df_list)
+print(df_list[1])
 #Ejecuto la función para unir todo en un mismo dataframe
-merged_df = merge_dataframes(df_list,on_column='fecha', suffixes=None, how='left')
+#merged_df = merge_dataframes(df_list,on_column='fecha', suffixes=None, how='left')
 
 #Elimino los datos Nan y corrigo los indices
-merged_df = merged_df.dropna().reset_index(drop=True)
+#merged_df = merged_df.dropna().reset_index(drop=True)
 
 #Creo subset del merge y renombro las columnas que se modificaron despúes del merge
-df_qoutes = merged_df.rename(columns={
-    'cierre_1':'USDB',
-    'cierre_2':'ALUA',
-    'cierre_3':'BMA',
-    'cierre_4':'BBAR',
-    })
+#df_qoutes = merged_df.rename(columns={
+#    'cierre_1':'usdb',
+#    'cierre_2':'alua',
+#    'cierre_3':'bma',
+#    'cierre_4':'bbar',
+#    })
 
-print(df_qoutes)
