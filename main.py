@@ -1,6 +1,7 @@
 """
 Proyecto para calcular fuerza relativa entre acciones y dólar en Argentina
 """
+import pandas as pd
 from data_cleaning.transform_xlsx import transform_xlsx
 from data_cleaning.clean_df_list import clean_df_list
 from data_cleaning.clean_df_list import clean_df
@@ -34,6 +35,9 @@ convert_date_list(df_list)
 #Ejecuto las funciones de data_analysis
 quotes_return(df_list)
 base_hundred(df_list)
+
+print(df_list[0]['fecha'] == df_list[1]['fecha'])
+
 relative_strange(df_list)
 
 #Ejecuto la función para unir todo en un mismo dataframe
@@ -42,9 +46,7 @@ merged_df = merge_dataframes(df_list,on_column='fecha', suffixes=[None], how='le
 #Elimino los datos Nan y corrigo los indices
 merged_df = merged_df.dropna().reset_index(drop=True)
 
-rs_df = merged_df[['fecha','RS X/USD_1','RS X/USD_2', 'RS X/USD_3', 'RS X/USD_4']]
-
-print(rs_df)
+#rs_df = merged_df[['fecha','RS X/USD_1','RS X/USD_2', 'RS X/USD_3', 'RS X/USD_4']]
 
 
 #Creo subset del merge y renombro las columnas que se modificaron despúes del merge
