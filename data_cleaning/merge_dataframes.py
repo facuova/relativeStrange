@@ -4,7 +4,8 @@
 """
 def merge_dataframes(list_df, on_column='fecha', suffixes=None, how='left'):
     """
-    Une una lista de DataFrames en base a una columna común.
+    Esta función recorre una lista de Dataframes y crea un DataFrame en base 
+    a la columa en común 'fecha'
 
     Parámetros:
         list_df (list): Lista de DataFrames que se unirán.
