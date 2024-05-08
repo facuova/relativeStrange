@@ -1,5 +1,5 @@
 """
-Este módulo proporciona funciones para transformar archivos XLSX en DataFrames.
+    Este módulo proporciona funciones para transformar archivos XLSX en DataFrames.
 """
 
 import pandas as pd
@@ -7,10 +7,11 @@ import openpyxl
 
 def transform_xlsx(lista_xlsx):
     """
-    Transformamos archivos XLSX  a dataframes y los almacena en una lista
+        Esta función recorre una lista de archivos xsx y los tranforma en una lista de 
+        DataFrames
     Argumentos: 
         lista_xlsx (list) : Lista con archivos XLSX
-    return:
+    Return:
         lista de dataframes
     """
     df_list = []

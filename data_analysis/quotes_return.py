@@ -1,5 +1,9 @@
 """
+<<<<<<< HEAD
    Esta función calcula los retornos/rendimiento diario de cada activo
+=======
+   Esta función  calcula los retornos 
+>>>>>>> data_analysis
 """
 import numpy as np
 

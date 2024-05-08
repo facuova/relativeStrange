@@ -1,14 +1,16 @@
 """
-Este módulo proporciona la función para filtrar y renombrar columnas de una lista
+    Este módulo proporciona la función para filtrar y renombrar columnas de una lista
+    y de un DataFrame
 """
 
 def clean_df_list(lista_df):
     """
-    Renombramos las columnas de la lista de dataframes y eliminamos la que no precisamos 
-    Argumentos: 
-        lista_df (list) : Lista con dataframes
-    Return:
-        lista con dataframes
+        Esta función recorre una lista de DataFrames. Renombra las columnas y elimina las 
+        que no precisamos 
+        Argumentos: 
+            ista_df (list) : Lista con dataframes
+        Return:
+            lista_df(list): lista con DataFrames con columnas renombradas y filtradas
     """
     for df in lista_df:
         df.rename(
@@ -28,11 +30,11 @@ column_delete = ['Compra']
 
 def clean_df(df):
     """
-    Renombramos las columnas dataframes y eliminamos la que no precisamos 
+    Renombramos las columnas de un DataFrames y elimina la columna que no preciso 
     Argumentos: 
         (df) : Dataframe
     Return:
-        Dataframe
+        (df): Dataframe con columnas renombradas y filtrada
     """
     df.rename(columns={
         'Fecha':'fecha',
