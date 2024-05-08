@@ -15,5 +15,7 @@ def convert_date_list(lista_df):
     for df in lista_df:
         #Convertimos el formato de fechaHora a datetine
         df['fecha'] = pd.to_datetime(df['fecha'])       
+
+        df.drop_duplicates(subset='fecha')
         
     return lista_df

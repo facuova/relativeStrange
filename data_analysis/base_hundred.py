@@ -7,7 +7,10 @@ def base_hundred (lista_df):
         Returns:
             lista_df(List) : Lista de dataframes  
     """
-    for df in lista_df:
-        df['Var base 100'] = df['retorno'] + 100
- 
+    for df in (lista_df):
+        df['calculo'] = df['retorno']
+        df.fillna({'calculo':100}, inplace=True)
+        df['var base 100'] = df['calculo'].cumsum()
     return lista_df
+    
+  
