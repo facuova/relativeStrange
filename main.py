@@ -44,23 +44,16 @@ merged_df = merge_dataframes(df_list,on_column='fecha', suffixes=[None], how='le
 #Elimino los datos Nan y corrigo los indices
 merged_df = merged_df.dropna().reset_index(drop=True)
 
+#Creo subset final del merge y renombro las columnas que se modificaron despúes del merg
 rs_df = merged_df[['fecha','RS X/USD_1','RS X/USD_2', 'RS X/USD_3', 'RS X/USD_4']]
 
-print(rs_df)
+rs_df = rs_df.rename(columns={
+    'RS X/USD_1':'USDB',
+    'RS X/USD_2':'ALUA/USDB',
+    'RS X/USD_3':'BMA/USBD',
+    'RS X/USD_4':'BBAR/USDB',
+    })
 
-#Creo subset del merge y renombro las columnas que se modificaron despúes del merge
-#df_qoutes = merged_df.rename(columns={
-#    'cierre_1':'usdb',
-#    'cierre_2':'alua',
-#    'cierre_3':'bma',
-#    'cierre_4':'bbar',
-#    })
+from data_output.prueba import prueba
 
-#relative_strange = merged_df[[
-#    'fecha',
-#    'Var base 100_1',
-#    'Var base 100_2',
-#    'Var base 100_3',
-#    'Var base 100_4']]
-
-#print(relative_strange)
+print(prueba)
