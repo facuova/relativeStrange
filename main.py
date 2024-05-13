@@ -55,6 +55,12 @@ rs_df = rs_df.rename(columns={
     'RS X/USD_4':'BBAR/USDB',
     })
 
+
 #Salida de resultados en un archivo Excel
 with pd.ExcelWriter('./data/final/rs_analysis.xlsx') as writer: 
     rs_df.to_excel(writer, sheet_name='rs_df')
+    df_list[0].to_excel(writer, sheet_name='USD')
+    df_list[1].to_excel(writer, sheet_name='ALUA')
+    df_list[2].to_excel(writer, sheet_name='BMA')
+    df_list[3].to_excel(writer, sheet_name='BBAR')
+
