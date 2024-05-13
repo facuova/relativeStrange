@@ -1,9 +1,10 @@
 """
 Proyecto para calcular fuerza relativa entre acciones y dólar en Argentina
 """
+import pandas as pd
+
 from data_cleaning.transform_xlsx import transform_xlsx
-from data_cleaning.clean_df_list import clean_df_list
-from data_cleaning.clean_df_list import clean_df
+from data_cleaning.clean_df_list import (clean_df_list, clean_df)
 from data_cleaning.clean_float_list import convert_float_list
 from data_cleaning.clean_date_list import convert_date_list
 from data_cleaning.merge_dataframes import merge_dataframes
@@ -54,6 +55,6 @@ rs_df = rs_df.rename(columns={
     'RS X/USD_4':'BBAR/USDB',
     })
 
-from data_output.prueba import prueba
-
-print(prueba)
+#Salida de resultados en un archivo Excel
+with pd.ExcelWriter('./data/final/rs_analysis.xlsx') as writer: 
+    rs_df.to_excel(writer, sheet_name='rs_df')
