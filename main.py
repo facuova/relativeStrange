@@ -12,7 +12,7 @@ from data_cleaning.filter_date_df import filter_date_df
 from data_analysis.quotes_return import quotes_return
 from data_analysis.base_hundred import base_hundred
 from data_analysis.relative_strange import relative_strange
-#from data_output.plot import grafico_output
+from data_output.plot import grafico_output
 
 #Imporo los archivos y los agrego a una lista
 USD_BLUE_FILE_PATH = './data/quotes/usd_blue.xlsx'
@@ -69,16 +69,6 @@ with pd.ExcelWriter('./data/final/rs_analysis.xlsx') as writer:
     bma_df.to_excel(writer, sheet_name='BMA', index=False)
     bbar_df.to_excel(writer, sheet_name='BBAR', index=False)
 
-#grafico_output(rs_df)
-    
-plt.figure(figsize=(10, 5))
-plt.title('Gráfico de Precios')
-plt.xlabel('Fecha')
-plt.ylabel('USDB')
-plt.plot(rs_df['fecha'],rs_df[['USDB','ALUA/USDB','BMA/USDB','BBAR/USDB']], linestyle='-')
-plt.grid(True)
+grafico_output(rs_df)
 
-# Ajustar diseño del gráfico
-plt.tight_layout()
-# Guardar el gráfico en un archivo de imagen
-plt.savefig('./data/final/grafico_usd.png', dpi=300)
+
