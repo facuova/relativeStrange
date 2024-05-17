@@ -69,6 +69,12 @@ with pd.ExcelWriter('./data/final/rs_analysis.xlsx') as writer:
     bma_df.to_excel(writer, sheet_name='BMA', index=False)
     bbar_df.to_excel(writer, sheet_name='BBAR', index=False)
 
-grafico_output(rs_df)
+prueba = ['cierre_2']
+nombre = 'alua'
+prueba2 = ['cierre_3']
+nombre2 = 'bma'
+
+grafico_output(alua_df, prueba,nombre)
+grafico_output(bma_df, prueba2,nombre2)
 
 

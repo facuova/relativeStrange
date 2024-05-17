@@ -3,7 +3,7 @@
 """
 import matplotlib.pyplot as plt
 
-def grafico_output(df):
+def grafico_output(df,lista_col,nombre):
     """
         Esta función crea un gráfico. 
         sumar como parametro "src" para especificar el noonbre del grafico
@@ -14,10 +14,12 @@ def grafico_output(df):
     plt.figure(figsize=(10, 5))
     plt.title('Gráfico de Fuerza Relativa')
     plt.xlabel('Fecha')
-    plt.plot(df['fecha'],df[['USDB','ALUA/USDB','BMA/USDB','BBAR/USDB']], linestyle='-')
+    print(1)
+    plt.plot(df['fecha'],df[lista_col], linestyle='-')
     plt.grid(True)
     
     # Ajustar diseño del gráfico
     plt.tight_layout()
+    print(2)
     # Guardar el gráfico en un archivo de imagen
-    plt.savefig('./data/final/grafico_usd.png', dpi=300)
+    plt.savefig(f'./data/final/{nombre}.png', dpi=300)
