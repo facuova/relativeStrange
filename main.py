@@ -2,17 +2,18 @@
 Proyecto para calcular fuerza relativa entre acciones y dólar en Argentina
 """
 import pandas as pd
-import matplotlib.pyplot as plt
 from data_cleaning.transform_xlsx import transform_xlsx
 from data_cleaning.clean_df_list import (clean_df_list, clean_df)
 from data_cleaning.clean_float_list import convert_float_list
 from data_cleaning.clean_date_list import convert_date_list
 from data_cleaning.merge_dataframes import merge_dataframes
 from data_cleaning.filter_date_df import filter_date_df
+from data_cleaning.rename_col_output import renamecol_ouput
 from data_analysis.quotes_return import quotes_return
 from data_analysis.base_hundred import base_hundred
 from data_analysis.relative_strange import relative_strange
-from data_output.plot import grafico_output
+from data_output.plot import plot_close
+from data_output.plot import plot_rs
 
 #Imporo los archivos y los agrego a una lista
 USD_BLUE_FILE_PATH = './data/quotes/usd_blue.xlsx'
@@ -48,33 +49,45 @@ merged_df = merged_df.dropna().reset_index(drop=True)
 
 #Creo subset final del merge y renombro las columnas que se modificaron despúes del merg
 rs_df = merged_df[['fecha','RS X/USD_1','RS X/USD_2', 'RS X/USD_3', 'RS X/USD_4']]
+print(merged_df.info())
 
+#Creo una lista con los nombres de las columnas finales
+RS_COL_NAME = ['USDB', 'ALUA/USDB', 'BMA/USDB', 'BBAR/USDB']
+
+#Renombro usando los indices de la lista anterior
 rs_df = rs_df.rename(columns={
-    'RS X/USD_1':'USDB',
-    'RS X/USD_2':'ALUA/USDB',
-    'RS X/USD_3':'BMA/USDB',
-    'RS X/USD_4':'BBAR/USDB',
+    'RS X/USD_1':RS_COL_NAME[0],
+    'RS X/USD_2':RS_COL_NAME[1],
+    'RS X/USD_3':RS_COL_NAME[2],
+    'RS X/USD_4':RS_COL_NAME[3],
     })
+
 
 usd_df = merged_df[['fecha','cierre_1','retorno_1']]
 alua_df = merged_df[['fecha','cierre_2','retorno_2']]
 bma_df = merged_df[['fecha','cierre_3','retorno_3']]
-bbar_df = merged_df[['fecha','cierre_3','retorno_3']]
+bbar_df = merged_df[['fecha','cierre_4','retorno_4']]
+
+#Creo una lista con los nombres de los activos utilizados
+ASSET_NAME = ['USDB', 'ALUA', 'BMA', 'BBVA']
+#Creo una lista con los df de los activos utilizados
+ASSET_LIST = [usd_df, alua_df, bma_df, bbar_df]
+
+ASSET_LIST = renamecol_ouput(ASSET_LIST,'cierre_','cierre')
+ASSET_LIST = renamecol_ouput(ASSET_LIST,'retorno_','retorno')
 
 #Salida de resultados en un archivo Excel
-with pd.ExcelWriter('./data/final/rs_analysis.xlsx') as writer: 
-    rs_df.to_excel(writer, sheet_name='rs_df', index=False)
-    usd_df.to_excel(writer, sheet_name='USD', index=False)
-    alua_df.to_excel(writer, sheet_name='ALUA', index=False)
-    bma_df.to_excel(writer, sheet_name='BMA', index=False)
-    bbar_df.to_excel(writer, sheet_name='BBAR', index=False)
-
-prueba = ['cierre_2']
-nombre = 'alua'
-prueba2 = ['cierre_3']
-nombre2 = 'bma'
-
-grafico_output(alua_df, prueba,nombre)
-grafico_output(bma_df, prueba2,nombre2)
+with pd.ExcelWriter('./data/final/rs_analysis.xlsx') as writer:
+    rs_df.to_excel(writer, sheet_name = 'rs_df', index=False)
+    ASSET_LIST[0].to_excel(writer, sheet_name = f'{ASSET_NAME[0]}', index=False)
+    ASSET_LIST[1].to_excel(writer, sheet_name = f'{ASSET_NAME[1]}', index=False)
+    ASSET_LIST[2].to_excel(writer, sheet_name = f'{ASSET_NAME[2]}',index=False)
+    ASSET_LIST[3].to_excel(writer, sheet_name = f'{ASSET_NAME[3]}', index=False)
 
 
+#Saiida de gráfico de imagenes
+plot_close(ASSET_LIST[0],'cierre',[ASSET_NAME[0]])
+plot_close(ASSET_LIST[1],'cierre',[ASSET_NAME[1]])
+plot_close(ASSET_LIST[2],'cierre',[ASSET_NAME[2]])
+plot_close(ASSET_LIST[3],'cierre',[ASSET_NAME[3]])
+plot_rs(rs_df, RS_COL_NAME)
