@@ -14,8 +14,9 @@ def plot_close(df,name_col,asset_name):
     plt.figure(figsize=(10, 5))
     plt.title(f'Gráfico de {name_col} de {asset_name}')
     plt.xlabel('Fecha')
-    plt.plot(df['fecha'],df[f'{name_col}'], linestyle='-')
+    plt.plot(df['fecha'],df[f'{name_col}'], label=asset_name, linestyle='-')
     plt.grid(True)
+    plt.legend(loc='upper left', fontsize='small')
     plt.xlim(df['fecha'].min(), df['fecha'].max())
     # Ajustar diseño del gráfico
     plt.tight_layout()
@@ -34,8 +35,9 @@ def plot_rs(df,rs_col_name):
     plt.figure(figsize=(10, 5))
     plt.title('Gráfico de fuerza relativa intramercado')
     plt.xlabel('Fecha')
-    plt.plot(df['fecha'],df[rs_col_name], linestyle='-')
+    plt.plot(df['fecha'],df[rs_col_name], label=rs_col_name, linestyle='-')
     plt.grid(True)
+    plt.legend(loc='upper left', fontsize='small')
     plt.xlim(df['fecha'].min(), df['fecha'].max())
     # Ajustar diseño del gráfico
     plt.tight_layout()
