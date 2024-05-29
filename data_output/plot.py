@@ -16,7 +16,7 @@ def plot_close(df,name_col,asset_name):
     plt.xlabel('Fecha')
     plt.plot(df['fecha'],df[f'{name_col}'], linestyle='-')
     plt.grid(True)
-    
+    plt.xlim(df['fecha'].min(), df['fecha'].max())
     # Ajustar diseño del gráfico
     plt.tight_layout()
     
@@ -34,12 +34,10 @@ def plot_rs(df,rs_col_name):
     plt.figure(figsize=(10, 5))
     plt.title('Gráfico de fuerza relativa intramercado')
     plt.xlabel('Fecha')
-    print(1)
     plt.plot(df['fecha'],df[rs_col_name], linestyle='-')
     plt.grid(True)
-    
+    plt.xlim(df['fecha'].min(), df['fecha'].max())
     # Ajustar diseño del gráfico
     plt.tight_layout()
-    print(2)
     # Guardar el gráfico en un archivo de imagen
     plt.savefig('./data/final/rsi_plot.png', dpi=300)

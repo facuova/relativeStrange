@@ -36,16 +36,22 @@ convert_float_list(df_list)
 convert_date_list(df_list)
 filter_date_df(df_list)
 
+print('Initial data cleaning ok')
+
 #Ejecuto las funciones de data_analysis
 quotes_return(df_list)
 base_hundred(df_list)
 relative_strange(df_list)
+
+print('Data analysis ok')
 
 #Ejecuto la función para unir todo en un mismo dataframe
 merged_df = merge_dataframes(df_list,on_column='fecha', suffixes=[None], how='left')
 
 #Elimino los datos Nan y corrigo los indices
 merged_df = merged_df.dropna().reset_index(drop=True)
+
+print('Merge ok')
 
 #Creo subset final filtrando columnas del merge. Renombro las columnas que se modificaron 
 #despúes del merge
@@ -76,6 +82,8 @@ ASSET_LIST = [usd_df, alua_df, bma_df, bbar_df]
 ASSET_LIST = renamecol_ouput(ASSET_LIST,'cierre_','cierre')
 ASSET_LIST = renamecol_ouput(ASSET_LIST,'retorno_','retorno')
 
+print('Merge data cleaning ok')
+
 #Salida de resultados en un archivo Excel
 with pd.ExcelWriter('./data/final/rs_analysis.xlsx') as writer:
     rs_df.to_excel(writer, sheet_name = 'rs_df', index=False)
@@ -84,10 +92,13 @@ with pd.ExcelWriter('./data/final/rs_analysis.xlsx') as writer:
     ASSET_LIST[2].to_excel(writer, sheet_name = f'{ASSET_NAME[2]}',index=False)
     ASSET_LIST[3].to_excel(writer, sheet_name = f'{ASSET_NAME[3]}', index=False)
 
+print("Xlsx output ok")
 
 #Saiida de gráfico de imagenes
-plot_close(ASSET_LIST[0].tail(250),'cierre',[ASSET_NAME[0]])
-plot_close(ASSET_LIST[1].tail(250),'cierre',[ASSET_NAME[1]])
-plot_close(ASSET_LIST[2].tail(250),'cierre',[ASSET_NAME[2]])
-plot_close(ASSET_LIST[3].tail(250),'cierre',[ASSET_NAME[3]])
 plot_rs(rs_df.tail(250), RS_COL_NAME)
+plot_close(ASSET_LIST[0].tail(250),'cierre',ASSET_NAME[0])
+plot_close(ASSET_LIST[1].tail(250),'cierre',ASSET_NAME[1])
+plot_close(ASSET_LIST[2].tail(250),'cierre',ASSET_NAME[2])
+plot_close(ASSET_LIST[3].tail(250),'cierre',ASSET_NAME[3])
+
+print("Png output ok")
