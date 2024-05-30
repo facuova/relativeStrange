@@ -1,5 +1,8 @@
 """
-Proyecto para calcular fuerza relativa entre acciones y dólar en Argentina
+    Idea de análisis tomada de Pablo Paolucci. E-mail: rickdecardtw@gmail.com
+    Proyecto para calcular la fuerza entre acciones y dólar blue en Argentina
+    Fuente datos de acciones:  Invertir Online SA
+    Fuentes datos de USD BLUE: Ambito.com
 """
 import pandas as pd
 from data_cleaning.transform_xlsx import transform_xlsx
@@ -20,8 +23,9 @@ USD_BLUE_FILE_PATH = './data/quotes/usd_blue.xlsx'
 ALUA_FILE_PATH = './data/quotes/alua.xlsx'
 GGAL_FILE_PATH = './data/quotes/ggal.xlsx'
 YPFD_FILE_PATH = './data/quotes/ypfd.xlsx'
+EDN_FILE_PATH = './data/quotes/edn.xlsx'
 
-XLSX_LIST = [USD_BLUE_FILE_PATH, ALUA_FILE_PATH, GGAL_FILE_PATH, YPFD_FILE_PATH]
+XLSX_LIST = [USD_BLUE_FILE_PATH, ALUA_FILE_PATH, GGAL_FILE_PATH, YPFD_FILE_PATH, EDN_FILE_PATH]
 
 #Creo una sublista para mantener el original
 XLSX_SUBLIST = XLSX_LIST
@@ -44,7 +48,7 @@ base_hundred(df_list)
 relative_strange(df_list)
 
 print('Data analysis ok')
-
+print(df_list[4])
 #Ejecuto la función para unir todo en un mismo dataframe
 merged_df = merge_dataframes(df_list,on_column='fecha', suffixes=[None], how='left')
 
@@ -52,13 +56,13 @@ merged_df = merge_dataframes(df_list,on_column='fecha', suffixes=[None], how='le
 merged_df = merged_df.dropna().reset_index(drop=True)
 
 print('Merge ok')
-
-#Creo subset final filtrando columnas del merge. Renombro las columnas que se modificaron 
+print(merged_df.info())
+#Creo subset final filtrando columnas del merge. Renombro las columnas que se modificaron
 #despúes del merge
-rs_df = merged_df[['fecha','RS X/USD_1','RS X/USD_2', 'RS X/USD_3', 'RS X/USD_4']]
+rs_df = merged_df[['fecha','RS X/USD_1','RS X/USD_2', 'RS X/USD_3', 'RS X/USD_4', 'RS X/USD']]
 
 #Creo una lista con los nombres de las columnas finales
-RS_COL_NAME = ['USDB', 'ALUA/USDB', 'GGAL/USDB', 'YPFD/USDB']
+RS_COL_NAME = ['USDB', 'ALUA/USDB', 'GGAL/USDB', 'YPFD/USDB', 'EDN/USDB']
 
 #Renombro usando los indices de la lista anterior
 rs_df = rs_df.rename(columns={
@@ -66,6 +70,7 @@ rs_df = rs_df.rename(columns={
     'RS X/USD_2':RS_COL_NAME[1],
     'RS X/USD_3':RS_COL_NAME[2],
     'RS X/USD_4':RS_COL_NAME[3],
+    'RS X/USD':RS_COL_NAME[4],
     })
 
 
@@ -73,11 +78,13 @@ usd_df = merged_df[['fecha','cierre_1','retorno_1']]
 alua_df = merged_df[['fecha','cierre_2','retorno_2']]
 bma_df = merged_df[['fecha','cierre_3','retorno_3']]
 bbar_df = merged_df[['fecha','cierre_4','retorno_4']]
+edn_df = merged_df[['fecha','cierre','retorno']]
 
 #Creo una lista con los nombres de los activos utilizados
-ASSET_NAME = ['USDB', 'ALUA', 'GGAL', 'YPFD']
+ASSET_NAME = ['USDB', 'ALUA', 'GGAL', 'YPFD', 'EDN']
+
 #Creo una lista con los df de los activos utilizados
-ASSET_LIST = [usd_df, alua_df, bma_df, bbar_df]
+ASSET_LIST = [usd_df, alua_df, bma_df, bbar_df,edn_df]
 
 ASSET_LIST = renamecol_ouput(ASSET_LIST,'cierre_','cierre')
 ASSET_LIST = renamecol_ouput(ASSET_LIST,'retorno_','retorno')
@@ -85,20 +92,22 @@ ASSET_LIST = renamecol_ouput(ASSET_LIST,'retorno_','retorno')
 print('Merge data cleaning ok')
 
 #Salida de resultados en un archivo Excel
-with pd.ExcelWriter('./data/final/rs_analysis.xlsx') as writer:
+with pd.ExcelWriter('./data/output/rs_analysis.xlsx') as writer:
     rs_df.to_excel(writer, sheet_name = 'rs_df', index=False)
     ASSET_LIST[0].to_excel(writer, sheet_name = f'{ASSET_NAME[0]}', index=False)
     ASSET_LIST[1].to_excel(writer, sheet_name = f'{ASSET_NAME[1]}', index=False)
     ASSET_LIST[2].to_excel(writer, sheet_name = f'{ASSET_NAME[2]}',index=False)
     ASSET_LIST[3].to_excel(writer, sheet_name = f'{ASSET_NAME[3]}', index=False)
+    ASSET_LIST[4].to_excel(writer, sheet_name = f'{ASSET_NAME[4]}', index=False)
 
 print("Xlsx output ok")
 
 #Saiida de gráfico de imagenes
-plot_rs(rs_df.tail(250), RS_COL_NAME)
+plot_rs(rs_df.tail(126), RS_COL_NAME)
 plot_close(ASSET_LIST[0].tail(250),'cierre',ASSET_NAME[0])
 plot_close(ASSET_LIST[1].tail(250),'cierre',ASSET_NAME[1])
 plot_close(ASSET_LIST[2].tail(250),'cierre',ASSET_NAME[2])
 plot_close(ASSET_LIST[3].tail(250),'cierre',ASSET_NAME[3])
+plot_close(ASSET_LIST[4].tail(250),'cierre',ASSET_NAME[4])
 
 print("Png output ok")
