@@ -48,7 +48,7 @@ base_hundred(df_list)
 relative_strange(df_list)
 
 print('Data analysis ok')
-
+print(df_list[0])
 #Ejecuto la función para unir todo en un mismo dataframe
 merged_df = merge_dataframes(df_list,on_column='fecha', suffixes=[None], how='left')
 
@@ -56,7 +56,7 @@ merged_df = merge_dataframes(df_list,on_column='fecha', suffixes=[None], how='le
 merged_df = merged_df.dropna().reset_index(drop=True)
 
 print('Merge ok')
-
+print(merged_df)
 #Creo subset final filtrando columnas del merge. Renombro las columnas que se modificaron
 #despúes del merge
 rs_df = merged_df[['fecha','RS X/USD_1','RS X/USD_2', 'RS X/USD_3', 'RS X/USD_4', 'RS X/USD']]
