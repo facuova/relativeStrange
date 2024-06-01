@@ -9,7 +9,7 @@ from data_cleaning.transform_xlsx import transform_xlsx
 from data_cleaning.clean_df_list import (clean_df_list, clean_df)
 from data_cleaning.clean_float_list import convert_float_list
 from data_cleaning.clean_date_list import convert_date_list
-from data_cleaning.merge_dataframes import merge_dataframes
+from data_cleaning.merge_dataframes import(merge_dataframes, merge_df_list)
 from data_cleaning.filter_date_df import filter_date_df
 from data_cleaning.rename_col_output import renamecol_ouput
 from data_analysis.quotes_return import quotes_return
@@ -42,13 +42,19 @@ filter_date_df(df_list)
 
 print('Initial data cleaning ok')
 
+#####
+lista_prueba = ['usd','alua','ggal','ypfd','edn']
+prueba = merge_df_list(df_list, on='fecha', how='left')
+
+print(prueba)
+
 #Ejecuto las funciones de data_analysis
 quotes_return(df_list)
 base_hundred(df_list)
 relative_strange(df_list)
 
 print('Data analysis ok')
-print(df_list[0])
+
 #Ejecuto la función para unir todo en un mismo dataframe
 merged_df = merge_dataframes(df_list,on_column='fecha', suffixes=[None], how='left')
 
@@ -56,7 +62,7 @@ merged_df = merge_dataframes(df_list,on_column='fecha', suffixes=[None], how='le
 merged_df = merged_df.dropna().reset_index(drop=True)
 
 print('Merge ok')
-print(merged_df)
+
 #Creo subset final filtrando columnas del merge. Renombro las columnas que se modificaron
 #despúes del merge
 rs_df = merged_df[['fecha','RS X/USD_1','RS X/USD_2', 'RS X/USD_3', 'RS X/USD_4', 'RS X/USD']]
