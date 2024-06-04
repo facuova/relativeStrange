@@ -6,7 +6,7 @@
 """
 import pandas as pd
 from data_cleaning.transform_xlsx import transform_xlsx
-from data_cleaning.clean_df_list import (clean_df_list, clean_df)
+from data_cleaning.clean_df_list import (clean_df_list, clean_df, filer_df_list_merge)
 from data_cleaning.clean_float_list import convert_float_list
 from data_cleaning.clean_date_list import convert_date_list
 from data_cleaning.merge_dataframes import(merge_dataframes, merge_df_list)
@@ -40,42 +40,29 @@ convert_float_list(df_list)
 convert_date_list(df_list)
 filter_date_df(df_list)
 
+#Ejecutamos 1° función de merge 
+df_list_merge = merge_df_list(df_list, on='fecha', how='left')
+
+#Elimino dadtos NaN por cada df
+df_list_merge[0] = df_list_merge[0].dropna(subset='cierre_y')
+df_list_merge[1] = df_list_merge[1].dropna(subset='cierre_y')
+df_list_merge[2] = df_list_merge[2].dropna(subset='cierre_y')
+df_list_merge[3] = df_list_merge[3].dropna(subset='cierre_y')
+
 print('Initial data cleaning ok')
 
-#####
-lista_prueba = ['usd','alua','ggal','ypfd','edn']
-prueba = merge_df_list(df_list, on='fecha', how='left')
-prueba[0] = prueba[0].dropna(subset='cierre_y')
-prueba[1] = prueba[1].dropna(subset='cierre_y')
-prueba[2] = prueba[2].dropna(subset='cierre_y')
-prueba[3] = prueba[3].dropna(subset='cierre_y')
-
-print(prueba)
-quotes_return(prueba)
-base_hundred(prueba)
-relative_strange(prueba)
-
-print(prueba)
-
-
-with pd.ExcelWriter('./data/output/prueba.xlsx') as writer:
-    prueba[1].to_excel(writer, sheet_name = 'rs_df', index=False)
-
-import matplotlib.pyplot as plt
-
-plt.figure(figsize=(10, 5))
-plt.plot(prueba[1]['fecha'],prueba[1]['X/USD'], linestyle='-')
-plt.show()
-
 #Ejecuto las funciones de data_analysis
-#quotes_return(df_list)
-#base_hundred(df_list)
-#relative_strange(df_list)
+quotes_return(df_list_merge)
+base_hundred(df_list_merge)
+relative_strange(df_list_merge)
 
+print(df_list_merge[0])
 print('Data analysis ok')
 
+filter_df_list = filer_df_list_merge(df_list_merge)
+
 #Ejecuto la función para unir todo en un mismo dataframe
-merged_df = merge_dataframes(df_list,on_column='fecha', suffixes=[None], how='left')
+merged_df = merge_dataframes(filter_df_list,on_column='fecha', suffixes=[None], how='left')
 
 #Elimino los datos Nan y corrigo los indices
 merged_df = merged_df.dropna().reset_index(drop=True)
@@ -84,20 +71,22 @@ print('Merge ok')
 
 #Creo subset final filtrando columnas del merge. Renombro las columnas que se modificaron
 #despúes del merge
-rs_df = merged_df[['fecha','RS X/USD_1','RS X/USD_2', 'RS X/USD_3', 'RS X/USD_4', 'RS X/USD']]
+rs_df = merged_df[['fecha','X/USD_1','X/USD_2', 'X/USD_3', 'X/USD_4']]
 
 #Creo una lista con los nombres de las columnas finales
-RS_COL_NAME = ['USDB', 'ALUA/USDB', 'GGAL/USDB', 'YPFD/USDB', 'EDN/USDB']
+RS_COL_NAME = ['ALUA/USDB', 'GGAL/USDB', 'YPFD/USDB', 'EDN/USDB']
 
 #Renombro usando los indices de la lista anterior
 rs_df = rs_df.rename(columns={
-    'RS X/USD_1':RS_COL_NAME[0],
-    'RS X/USD_2':RS_COL_NAME[1],
-    'RS X/USD_3':RS_COL_NAME[2],
-    'RS X/USD_4':RS_COL_NAME[3],
-    'RS X/USD':RS_COL_NAME[4],
+    'X/USD_1':RS_COL_NAME[0],
+    'X/USD_2':RS_COL_NAME[1],
+    'X/USD_3':RS_COL_NAME[2],
+    'X/USD_4':RS_COL_NAME[3],
     })
 
+print('llegué')
+
+print(rs_df)
 
 usd_df = merged_df[['fecha','cierre_1','retorno_1']]
 alua_df = merged_df[['fecha','cierre_2','retorno_2']]

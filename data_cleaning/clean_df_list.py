@@ -45,3 +45,18 @@ def clean_df(df):
     df = df.drop(columns=column_delete, axis=1, inplace=True)
 
     return df
+
+def filer_df_list_merge(list_df):
+    
+    for df in list_df:
+        columns_delete = [
+            'cierre_x',
+            'cierre_y',
+            'retorno_x',
+            'retorno_y',
+            'calculo_x',
+            'calculo_y',
+            'base_100_x',
+            'base_100_y']
+        df.drop(columns=columns_delete, inplace=True)
+    return list_df

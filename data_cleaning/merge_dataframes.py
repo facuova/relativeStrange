@@ -28,7 +28,7 @@ def merge_df_list(list_df, on, how='left'):
     for df in list_df[1:]:
         merged_df = df.merge(df0, on=on, how=how)
         merged_dfs.append(merged_df)
-        
+
     return merged_dfs
 
 def merge_dataframes(list_df, on_column='fecha', suffixes=None, how='left'):
