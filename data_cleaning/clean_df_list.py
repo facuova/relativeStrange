@@ -68,6 +68,7 @@ def filter_df_list_merge(list_df):
             'calculo_y',
             'base_100_x',
             'base_100_y']
+        
         df_copy.drop(columns=columns_delete, inplace=True)
         filter_df_list.append(df_copy)
 
