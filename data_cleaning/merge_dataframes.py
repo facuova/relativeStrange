@@ -3,19 +3,17 @@
     uniendólos en base a una columna común.
 """
 
-def merge_df_list(list_df, on='fecha', how='left'):
+def merge_df_list(list_df, on, how='left'):
     """
-    Esta función recorre una lista de Dataframes y crea un DataFrame en base 
-    a la columa en común 'fecha'
+    Esta función recorre una lista de Dataframes 
 
     Parámetros:
         list_df (list): Lista de DataFrames que se unirán.
-        on_column (str): Nombre de la columna en la que se basará la unión. Por defecto, 'fecha'.
-        suffixes (list): Sufijos para las columnas de cada DataFrame en caso de conflicto. Por defecto, None.
+        on (str): Nombre de la columna en la que se basará la unión. 
         how (str): Tipo de unión a realizar. Por defecto, 'left'.
 
     Returns:
-        DataFrame: DataFrame resultante de la unión.
+        list_merge (list):  Lista con DataFrames unidos con el primer df de la lista inicial
     """
     if not list_df:
         return []
@@ -30,7 +28,7 @@ def merge_df_list(list_df, on='fecha', how='left'):
     for df in list_df[1:]:
         merged_df = df.merge(df0, on=on, how=how)
         merged_dfs.append(merged_df)
-
+        
     return merged_dfs
 
 def merge_dataframes(list_df, on_column='fecha', suffixes=None, how='left'):

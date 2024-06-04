@@ -12,12 +12,15 @@ def base_hundred (lista_df):
     """
     for df in (lista_df):
 
-        df['calculo'] = df['retorno']
+        df['calculo_x'] = df['retorno_x']
+        df['calculo_y'] = df['retorno_y']
 
-        df.fillna({'calculo':100}, inplace=True)
-        
-        df['var base 100'] = df['calculo'].cumsum()
+        df.fillna({'calculo_x':100}, inplace=True)
+        df.fillna({'calculo_y':100}, inplace=True)
 
+        df['base_100_x'] = df['calculo_x'].cumsum()
+        df['base_100_y'] = df['calculo_y'].cumsum()
+    
     return lista_df
     
   

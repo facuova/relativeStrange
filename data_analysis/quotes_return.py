@@ -1,9 +1,5 @@
 """
-<<<<<<< HEAD
    Esta función calcula los retornos/rendimiento diario de cada activo
-=======
-   Esta función  calcula los retornos 
->>>>>>> data_analysis
 """
 import numpy as np
 
@@ -17,6 +13,8 @@ def quotes_return (lista_df):
             lista_df(List) : Lista de dataframes con columna nueva de 'retorno'
     """
     for df in lista_df:
-        df['retorno'] = round(((np.log(df['cierre'] / df['cierre'].shift(1)))*100),3)
-
+        df['retorno_x'] = round(((np.log(df['cierre_x'] / df['cierre_x'].shift(1)))*100),3)
+        df['retorno_y'] = round(((np.log(df['cierre_y'] / df['cierre_y'].shift(1)))*100),3)
+        df = df.drop(0)
+    
     return lista_df

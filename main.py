@@ -45,13 +45,32 @@ print('Initial data cleaning ok')
 #####
 lista_prueba = ['usd','alua','ggal','ypfd','edn']
 prueba = merge_df_list(df_list, on='fecha', how='left')
+prueba[0] = prueba[0].dropna(subset='cierre_y')
+prueba[1] = prueba[1].dropna(subset='cierre_y')
+prueba[2] = prueba[2].dropna(subset='cierre_y')
+prueba[3] = prueba[3].dropna(subset='cierre_y')
+
+print(prueba)
+quotes_return(prueba)
+base_hundred(prueba)
+relative_strange(prueba)
 
 print(prueba)
 
+
+with pd.ExcelWriter('./data/output/prueba.xlsx') as writer:
+    prueba[1].to_excel(writer, sheet_name = 'rs_df', index=False)
+
+import matplotlib.pyplot as plt
+
+plt.figure(figsize=(10, 5))
+plt.plot(prueba[1]['fecha'],prueba[1]['X/USD'], linestyle='-')
+plt.show()
+
 #Ejecuto las funciones de data_analysis
-quotes_return(df_list)
-base_hundred(df_list)
-relative_strange(df_list)
+#quotes_return(df_list)
+#base_hundred(df_list)
+#relative_strange(df_list)
 
 print('Data analysis ok')
 
