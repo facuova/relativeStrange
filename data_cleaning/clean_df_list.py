@@ -46,9 +46,19 @@ def clean_df(df):
 
     return df
 
-def filer_df_list_merge(list_df):
+filter_df_list = []
+
+def filter_df_list_merge(list_df):
+    """
+        Recorre una lista de DataFrame y elimina las columna que no preciso en cada df
+        Argumentos: 
+            List_df(list) : Lista con Dataframes
+        Return:
+            List_df(list) : Lista con Dataframes filtrada con columnas necesarias
+    """
     
     for df in list_df:
+        df_copy  = df.copy(deep=True)
         columns_delete = [
             'cierre_x',
             'cierre_y',
@@ -58,5 +68,7 @@ def filer_df_list_merge(list_df):
             'calculo_y',
             'base_100_x',
             'base_100_y']
-        df.drop(columns=columns_delete, inplace=True)
-    return list_df
+        df_copy.drop(columns=columns_delete, inplace=True)
+        filter_df_list.append(df_copy)
+
+    return filter_df_list

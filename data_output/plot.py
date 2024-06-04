@@ -16,7 +16,7 @@ def plot_close(df,columns,name):
     # Configuración del gráfico
     # Tamaño del gráfico en pulgadas (800x400 píxeles)
     plt.figure(figsize=(10, 5))
-    plt.title(f'Gráfico de {columns} de {name}')
+    plt.title(f'Gráfico de cierre {name}')
     plt.xlabel('Fecha')
     plt.plot(df['fecha'],df[f'{columns}'], label=name, linestyle='-')
     plt.grid(True)
