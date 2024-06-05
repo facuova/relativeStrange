@@ -85,8 +85,7 @@ rs_df = rs_df.rename(columns={
     'X/USD_4':RS_COL_NAME[3],
     })
 
-usd_df  = df_list_merge[0][['fecha', 'cierre_y','retorno_y', 'base_100_y']]
-usd_df['X/USD'] = (usd_df['base_100_y'] / usd_df['base_100_y']) * 100
+usd_df  = df_list_merge[0][['fecha', 'cierre_y','retorno_y',]]
 alua_df = df_list_merge[0][['fecha', 'cierre_x','retorno_x',]]
 bma_df  = df_list_merge[1][['fecha', 'cierre_x','retorno_x',]]
 bbar_df = df_list_merge[2][['fecha', 'cierre_x','retorno_x',]]
@@ -118,5 +117,15 @@ plot_close(ASSET_LIST[1].tail(250),'cierre_x',ASSET_NAME[1])
 plot_close(ASSET_LIST[2].tail(250),'cierre_x',ASSET_NAME[2])
 plot_close(ASSET_LIST[3].tail(250),'cierre_x',ASSET_NAME[3])
 plot_close(ASSET_LIST[4].tail(250),'cierre_x',ASSET_NAME[4])
+
+df_list_merge[0][RS_COL_NAME[0]] = df_list_merge[0]['cierre_x'] / df_list_merge[0]['cierre_y']
+df_list_merge[1][RS_COL_NAME[1]] = df_list_merge[1]['cierre_x'] / df_list_merge[1]['cierre_y']
+df_list_merge[2][RS_COL_NAME[2]] = df_list_merge[2]['cierre_x'] / df_list_merge[2]['cierre_y']
+df_list_merge[3][RS_COL_NAME[3]] = df_list_merge[3]['cierre_x'] / df_list_merge[3]['cierre_y']
+
+plot_close(df_list_merge[0].tail(250),RS_COL_NAME[0],'ALUA vs USDB')
+plot_close(df_list_merge[1].tail(250),RS_COL_NAME[1],'GGAL vs USDB')
+plot_close(df_list_merge[2].tail(250),RS_COL_NAME[2],'YPFD vs USDB')
+plot_close(df_list_merge[3].tail(250),RS_COL_NAME[3],'EDN vs USDB')
 
 print("Png output ok")
