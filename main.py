@@ -44,13 +44,9 @@ print('Initial data cleaning ok')
 
 #Ejecutamos 1° función de merge
 df_list_merge = merge_df_list(df_list, on='fecha', how='left')
+#Elimino dadtos NaN por cada df
 
 df_list_merge = clean_nan_dflist(df_list_merge,'cierre_y')
-#Elimino dadtos NaN por cada df
-#df_list_merge[0] = df_list_merge[0].dropna(subset='cierre_y')
-#df_list_merge[1] = df_list_merge[1].dropna(subset='cierre_y')
-#df_list_merge[2] = df_list_merge[2].dropna(subset='cierre_y')
-#df_list_merge[3] = df_list_merge[3].dropna(subset='cierre_y')
 
 print(df_list_merge[1])
 print('1er merge ok')
