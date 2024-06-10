@@ -11,6 +11,7 @@ from data_cleaning.clean_float_list import convert_float_list
 from data_cleaning.clean_date_list import convert_date_list
 from data_cleaning.merge_dataframes import(merge_dataframes, merge_df_list)
 from data_cleaning.filter_date_df import filter_date_df
+from data_cleaning.clean_nan_list import clean_nan_dflist
 from data_analysis.quotes_return import quotes_return
 from data_analysis.base_hundred import base_hundred
 from data_analysis.relative_strange import relative_strange
@@ -44,12 +45,14 @@ print('Initial data cleaning ok')
 #Ejecutamos 1° función de merge
 df_list_merge = merge_df_list(df_list, on='fecha', how='left')
 
+df_list_merge = clean_nan_dflist(df_list_merge,'cierre_y')
 #Elimino dadtos NaN por cada df
-df_list_merge[0] = df_list_merge[0].dropna(subset='cierre_y')
-df_list_merge[1] = df_list_merge[1].dropna(subset='cierre_y')
-df_list_merge[2] = df_list_merge[2].dropna(subset='cierre_y')
-df_list_merge[3] = df_list_merge[3].dropna(subset='cierre_y')
+#df_list_merge[0] = df_list_merge[0].dropna(subset='cierre_y')
+#df_list_merge[1] = df_list_merge[1].dropna(subset='cierre_y')
+#df_list_merge[2] = df_list_merge[2].dropna(subset='cierre_y')
+#df_list_merge[3] = df_list_merge[3].dropna(subset='cierre_y')
 
+print(df_list_merge[1])
 print('1er merge ok')
 
 #Ejecuto las funciones de data_analysis
