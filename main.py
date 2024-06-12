@@ -48,7 +48,6 @@ df_list_merge = merge_df_list(df_list, on='fecha', how='left')
 
 df_list_merge = clean_nan_dflist(df_list_merge,'cierre_y')
 
-print(df_list_merge[1])
 print('1er merge ok')
 
 #Ejecuto las funciones de data_analysis
@@ -117,14 +116,15 @@ plot_close(ASSET_LIST[2].tail(250),'cierre_x',ASSET_NAME[2])
 plot_close(ASSET_LIST[3].tail(250),'cierre_x',ASSET_NAME[3])
 plot_close(ASSET_LIST[4].tail(250),'cierre_x',ASSET_NAME[4])
 
+#Cálculo de acciones en usd
 df_list_merge[0][RS_COL_NAME[0]] = df_list_merge[0]['cierre_x'] / df_list_merge[0]['cierre_y']
 df_list_merge[1][RS_COL_NAME[1]] = df_list_merge[1]['cierre_x'] / df_list_merge[1]['cierre_y']
 df_list_merge[2][RS_COL_NAME[2]] = df_list_merge[2]['cierre_x'] / df_list_merge[2]['cierre_y']
 df_list_merge[3][RS_COL_NAME[3]] = df_list_merge[3]['cierre_x'] / df_list_merge[3]['cierre_y']
 
-plot_close(df_list_merge[0].tail(250),RS_COL_NAME[0],'ALUA vs USDB')
-plot_close(df_list_merge[1].tail(250),RS_COL_NAME[1],'GGAL vs USDB')
-plot_close(df_list_merge[2].tail(250),RS_COL_NAME[2],'YPFD vs USDB')
-plot_close(df_list_merge[3].tail(250),RS_COL_NAME[3],'EDN vs USDB')
+plot_close(df_list_merge[0].tail(250),RS_COL_NAME[0],'ALUA en USDB')
+plot_close(df_list_merge[1].tail(250),RS_COL_NAME[1],'GGAL en USDB')
+plot_close(df_list_merge[2].tail(250),RS_COL_NAME[2],'YPFD en USDB')
+plot_close(df_list_merge[3].tail(250),RS_COL_NAME[3],'EDN en USDB')
 
 print("Png output ok")
