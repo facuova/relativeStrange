@@ -108,13 +108,16 @@ with pd.ExcelWriter('./data/output/rs_analysis.xlsx') as writer:
 
 print("Xlsx output ok")
 
-#Saiida de gráfico de imagenes
+#Saiida de gráfico de imagenes 
+#Gráfico RSI 
 plot_rs(rs_df.tail(126), RS_COL_NAME)
+#Gráficos de cierre
 plot_close(ASSET_LIST[0].tail(250),'cierre_y',ASSET_NAME[0])
 plot_close(ASSET_LIST[1].tail(250),'cierre_x',ASSET_NAME[1])
 plot_close(ASSET_LIST[2].tail(250),'cierre_x',ASSET_NAME[2])
 plot_close(ASSET_LIST[3].tail(250),'cierre_x',ASSET_NAME[3])
 plot_close(ASSET_LIST[4].tail(250),'cierre_x',ASSET_NAME[4])
+
 
 #Cálculo de acciones en usd
 df_list_merge[0][RS_COL_NAME[0]] = df_list_merge[0]['cierre_x'] / df_list_merge[0]['cierre_y']
@@ -122,6 +125,7 @@ df_list_merge[1][RS_COL_NAME[1]] = df_list_merge[1]['cierre_x'] / df_list_merge[
 df_list_merge[2][RS_COL_NAME[2]] = df_list_merge[2]['cierre_x'] / df_list_merge[2]['cierre_y']
 df_list_merge[3][RS_COL_NAME[3]] = df_list_merge[3]['cierre_x'] / df_list_merge[3]['cierre_y']
 
+#Gráficos de cierre/USDB
 plot_close(df_list_merge[0].tail(250),RS_COL_NAME[0],'ALUA en USDB')
 plot_close(df_list_merge[1].tail(250),RS_COL_NAME[1],'GGAL en USDB')
 plot_close(df_list_merge[2].tail(250),RS_COL_NAME[2],'YPFD en USDB')
